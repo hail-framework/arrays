@@ -124,7 +124,7 @@ class Arrays
     /**
      * Remove one or many array items from a given array using "dot" notation.
      *
-     * @param array    $array
+     * @param array  $array
      * @param string ...$keys
      *
      * @return void
@@ -202,17 +202,23 @@ class Arrays
      * Array shift no reindex, and return key (use for assoc array)
      *
      * @param array $array
+     * @param bool  $reset true when the array need to reset pointer, but false run more faster
      *
      * @return array[value, key]|null
      */
-    public static function shift(array &$array): ?array
+    public static function shift(array &$array, bool $reset = false): ?array
     {
         if ($array === []) {
             return null;
         }
 
-        $value = \reset($array);
-        $key = \key($array);
+        if ($reset) {
+            $value = \reset($array);
+            $key = \key($array);
+        } else {
+            $key = \key($array);
+            $value = $array[$key];
+        }
 
         unset($array[$key]);
 
