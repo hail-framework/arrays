@@ -1,13 +1,11 @@
 <?php
 /**
- * Some coode from
+ * Some code from
  * https://github.com/laravel/framework/blob/5.8/src/Illuminate/Support/Arr.php
  * Copyright (c) Taylor Otwell
  */
 
 namespace Hail\Arrays;
-
-use Hail\Singleton\SingletonTrait;
 
 /**
  * Class Arrays
@@ -17,8 +15,6 @@ use Hail\Singleton\SingletonTrait;
  */
 class Arrays
 {
-    use SingletonTrait;
-
     /**
      * Flatten a multi-dimensional associative array with dots.
      *
@@ -27,7 +23,7 @@ class Arrays
      *
      * @return array
      */
-    public function dot(array $array, string $prepend = ''): array
+    public static function flatten(array $array, string $prepend = ''): array
     {
         $results = [
             0 => [],
@@ -35,7 +31,7 @@ class Arrays
 
         foreach ($array as $key => $value) {
             if (\is_array($value) && !empty($value)) {
-                $results[] = $this->dot($value, $prepend . $key . '.');
+                $results[] = self::flatten($value, $prepend . $key . '.');
             } else {
                 $results[0][$prepend . $key] = $value;
             }
@@ -52,7 +48,7 @@ class Arrays
      *
      * @return mixed
      */
-    public function get(array $array, string $key = null)
+    public static function get(array $array, string $key = null)
     {
         if ($key === null) {
             return $array;
@@ -84,7 +80,7 @@ class Arrays
      * @param string $key
      * @param mixed  $value
      */
-    public function set(array &$array, string $key, $value)
+    public static function set(array &$array, string $key, $value)
     {
         foreach (\explode('.', $key) as $k) {
             if (!isset($array[$k]) || !\is_array($array[$k])) {
@@ -100,11 +96,11 @@ class Arrays
      * Check if an item or items exist in an array using "dot" notation.
      *
      * @param array  $array
-     * @param string $keys
+     * @param string $key
      *
      * @return bool
      */
-    public function has(array $array, string $key): bool
+    public static function has(array $array, string $key): bool
     {
         if ($array === []) {
             return false;
@@ -129,11 +125,11 @@ class Arrays
      * Remove one or many array items from a given array using "dot" notation.
      *
      * @param array    $array
-     * @param string[] ...$keys
+     * @param string ...$keys
      *
      * @return void
      */
-    public function delete(array &$array, string ...$keys)
+    public static function delete(array &$array, string ...$keys)
     {
         if ($keys === []) {
             return;
@@ -173,7 +169,7 @@ class Arrays
      *
      * @return bool
      */
-    public function isAssoc(array $array): bool
+    public static function isAssoc(array $array): bool
     {
         if (!isset($array[0])) {
             return true;
@@ -189,7 +185,7 @@ class Arrays
      *
      * @return array
      */
-    public function filter(array $array): array
+    public static function filter(array $array): array
     {
         static $fun;
 
@@ -203,13 +199,13 @@ class Arrays
     }
 
     /**
-     * array shift no reindex, and return key (use for assoc array)
+     * Array shift no reindex, and return key (use for assoc array)
      *
      * @param array $array
      *
      * @return array[value, key]|null
      */
-    public function shift(array &$array): ?array
+    public static function shift(array &$array): ?array
     {
         if ($array === []) {
             return null;
@@ -230,7 +226,7 @@ class Arrays
      *
      * @return string
      */
-    public function query(array $array): string
+    public static function query(array $array): string
     {
         return \http_build_query($array, null, '&', PHP_QUERY_RFC3986);
     }

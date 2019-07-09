@@ -28,6 +28,7 @@
   ],
   "require": {
     "php": ">=7.1.3",
-    "hail/singleton": "^1.0.0",
+    "ext-json": "*",
+    "hail/singleton": "^1.0.0"
   }
 }
