@@ -11,7 +11,7 @@ namespace Hail\Arrays;
  * Class Arrays
  *
  * @package Hail\Util
- * @author  Feng Hao <flyinghail@msn.com>
+ * @author  FENG Hao <flyinghail@msn.com>
  */
 class Arrays
 {

@@ -5,7 +5,7 @@ namespace Hail\Arrays;
  * Class ArrayTrait
  *
  * @package Hail\Util
- * @author Feng Hao <flyinghail@msn.com>
+ * @author FENG Hao <flyinghail@msn.com>
  */
 trait ArrayTrait
 {

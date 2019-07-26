@@ -6,7 +6,7 @@ namespace Hail\Arrays;
  * Class Dot
  *
  * @package Hail\Arrays
- * @author  Feng Hao <flyinghail@msn.com>
+ * @author  FENG Hao <flyinghail@msn.com>
  */
 class Dot implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable
 {
