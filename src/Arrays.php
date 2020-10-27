@@ -187,15 +187,12 @@ class Arrays
      */
     public static function filter(array $array): array
     {
-        static $fun;
+        return \array_filter($array, ['self', 'filterCallback']);
+    }
 
-        if ($fun === null) {
-            $fun = static function ($v) {
-                return $v !== false && $v !== null;
-            };
-        }
-
-        return \array_filter($array, $fun);
+    private static function filterCallback($v): bool
+    {
+        return $v !== false && $v !== null;
     }
 
     /**
