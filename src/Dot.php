@@ -10,6 +10,8 @@ namespace Hail\Arrays;
  */
 class Dot implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable
 {
+    use ArrayAccessTrait;
+
     private array $array;
 
     private ?int $count = null;
@@ -54,25 +56,5 @@ class Dot implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializ
     public function getIterator(): \Iterator
     {
         return new \ArrayIterator($this->array);
-    }
-
-    public function offsetSet($offset, $value)
-    {
-        $this->set($offset, $value);
-    }
-
-    public function offsetExists($offset)
-    {
-        return Arrays::has($this->array, $offset);
-    }
-
-    public function offsetUnset($offset)
-    {
-        $this->delete($offset);
-    }
-
-    public function offsetGet($offset)
-    {
-        return $this->get($offset);
     }
 }
