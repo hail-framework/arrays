@@ -23,4 +23,9 @@ trait ArrayAccessTrait
     {
         return $this->get($offset);
     }
+
+    public function has(string $key): bool
+    {
+        return $this->get($key) !== null;
+    }
 }
