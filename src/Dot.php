@@ -32,6 +32,11 @@ class Dot implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializ
         return Arrays::get($this->array, $key);
     }
 
+    public function has(string $key): bool
+    {
+        return Arrays::has($this->array, $key);
+    }
+
     public function delete(string $key): void
     {
         Arrays::delete($this->array, $key);
