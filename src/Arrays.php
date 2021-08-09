@@ -71,7 +71,7 @@ class Arrays
     /**
      * Set an array item to a given value using "dot" notation.
      */
-    public static function set(array &$array, string $key, mixed $value)
+    public static function set(array &$array, string $key, mixed $value): void
     {
         foreach (\explode('.', $key) as $k) {
             if (!isset($array[$k]) || !\is_array($array[$k])) {
@@ -159,12 +159,7 @@ class Arrays
 
     public static function filter(array $array): array
     {
-        return \array_filter($array, ['self', 'filterCallback']);
-    }
-
-    private static function filterCallback($v): bool
-    {
-        return $v !== false && $v !== null;
+        return \array_filter($array, static fn ($v) => $v !== false && $v !== null);
     }
 
     /**
