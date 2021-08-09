@@ -42,13 +42,8 @@ class Arrays
 
     /**
      * Get an item from an array using "dot" notation.
-     *
-     * @param array  $array
-     * @param string $key
-     *
-     * @return mixed
      */
-    public static function get(array $array, string $key = null)
+    public static function get(array $array, string $key = null): mixed
     {
         if ($key === null) {
             return $array;
@@ -75,12 +70,8 @@ class Arrays
 
     /**
      * Set an array item to a given value using "dot" notation.
-     *
-     * @param array  $array
-     * @param string $key
-     * @param mixed  $value
      */
-    public static function set(array &$array, string $key, $value)
+    public static function set(array &$array, string $key, mixed $value)
     {
         foreach (\explode('.', $key) as $k) {
             if (!isset($array[$k]) || !\is_array($array[$k])) {
@@ -94,11 +85,6 @@ class Arrays
 
     /**
      * Check if an item or items exist in an array using "dot" notation.
-     *
-     * @param array  $array
-     * @param string $key
-     *
-     * @return bool
      */
     public static function has(array $array, string $key): bool
     {
@@ -123,13 +109,8 @@ class Arrays
 
     /**
      * Remove one or many array items from a given array using "dot" notation.
-     *
-     * @param array  $array
-     * @param string ...$keys
-     *
-     * @return void
      */
-    public static function delete(array &$array, string ...$keys)
+    public static function delete(array &$array, string ...$keys): void
     {
         if ($keys === []) {
             return;
@@ -164,10 +145,6 @@ class Arrays
      * Determines if an array is associative.
      *
      * An array is "associative" if it doesn't have sequential numerical keys beginning with zero.
-     *
-     * @param array $array
-     *
-     * @return bool
      */
     public static function isAssoc(array $array): bool
     {
@@ -180,11 +157,6 @@ class Arrays
         return \array_keys($keys) !== $keys;
     }
 
-    /**
-     * @param array $array
-     *
-     * @return array
-     */
     public static function filter(array $array): array
     {
         return \array_filter($array, ['self', 'filterCallback']);
@@ -197,25 +169,15 @@ class Arrays
 
     /**
      * Array shift no reindex, and return key (use for assoc array)
-     *
-     * @param array $array
-     * @param bool  $reset true when the array need to reset pointer, but false run more faster
-     *
-     * @return array[value, key]|null
      */
-    public static function shift(array &$array, bool $reset = false): ?array
+    public static function shift(array &$array): ?array
     {
         if ($array === []) {
             return null;
         }
 
-        if ($reset) {
-            $value = \reset($array);
-            $key = \key($array);
-        } else {
-            $key = \key($array);
-            $value = $array[$key];
-        }
+        $key = \array_key_first($array);
+        $value = $array[$key];
 
         unset($array[$key]);
 
@@ -224,10 +186,6 @@ class Arrays
 
     /**
      * Convert the array into a query string.
-     *
-     * @param array $array
-     *
-     * @return string
      */
     public static function query(array $array): string
     {

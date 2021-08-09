@@ -10,46 +10,26 @@ namespace Hail\Arrays;
  */
 class Dot implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable
 {
-    use ArrayTrait;
+    private array $array;
 
-    /**
-     * @var array
-     */
-    private $array;
-
-    /**
-     * @var int
-     */
-    private $count;
+    private ?int $count = null;
 
     public function __construct(array $array)
     {
         $this->array = $array;
     }
 
-    /**
-     * @param string $key
-     * @param mixed  $value
-     */
-    public function set(string $key, $value): void
+    public function set(string $key, mixed $value): void
     {
         Arrays::set($this->array, $key, $value);
         $this->count = null;
     }
 
-    /**
-     * @param string $key
-     *
-     * @return mixed
-     */
-    public function get(string $key)
+    public function get(string $key): mixed
     {
         return Arrays::get($this->array, $key);
     }
 
-    /**
-     * @param string $key
-     */
     public function delete(string $key): void
     {
         Arrays::delete($this->array, $key);
@@ -61,22 +41,38 @@ class Dot implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializ
         return Arrays::flatten($this->array);
     }
 
-    public function count()
+    public function count(): int
     {
-        if ($this->count === null) {
-            $this->count = \count($this->array);
-        }
-
-        return $this->count;
+        return $this->count ??= \count($this->array);
     }
 
     public function jsonSerialize(): string
     {
-        return \json_encode($this->array, \JSON_UNESCAPED_SLASHES | \JSON_PRESERVE_ZERO_FRACTION);
+        return \json_encode($this->array, \JSON_THROW_ON_ERROR | \JSON_UNESCAPED_SLASHES | \JSON_PRESERVE_ZERO_FRACTION);
     }
 
     public function getIterator(): \Iterator
     {
         return new \ArrayIterator($this->array);
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        $this->set($offset, $value);
+    }
+
+    public function offsetExists($offset)
+    {
+        return Arrays::has($this->array, $offset);
+    }
+
+    public function offsetUnset($offset)
+    {
+        $this->delete($offset);
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->get($offset);
     }
 }
