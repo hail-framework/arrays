@@ -148,6 +148,10 @@ class Arrays
      */
     public static function isAssoc(array $array): bool
     {
+        if ($array === []) {
+            return false;
+        }
+
         if (!isset($array[0])) {
             return true;
         }
